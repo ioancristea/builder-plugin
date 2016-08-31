@@ -163,6 +163,13 @@ class DatabaseTableModel extends BaseModel
 
     protected function validateColumns()
     {
+        $indexesToCheck = ['name', 'type', 'length', 'unsigned', 'allow_null', 'auto_increment', 'primary_key', 'default', 'id'];
+        foreach ($this->columns as $columnKey => $column)
+        {
+            foreach ($indexesToCheck as $index)
+                if(!isset($this->columns[$columnKey][$index])) $this->columns[$columnKey][$index] = '';
+        }
+        
         $this->validateDupicateColumns();
         $this->validateDubplicatePrimaryKeys();
         $this->validateAutoIncrementColumns();
